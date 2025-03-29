@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="index.js" defer></script>
+    <title>Комментарии</title>
+</head>
+<body>
+    <header></header>
+    <div class="wrapper">
+       <aside></aside>
+       <main class="main">
+            <div class="main__empty">
+                <div class="main__empty_block-1">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <div class="main__empty_block-2"></div>
+            </div>
+            <div class="main__line"></div>
+            <div class="main__comments">
+                <div class="main__comments_filter">
+                    <form class="main__comments_filter_form">
+                        <div class="main__comments_filter_form_btn-comment">
+                            <button id="comment" class="main__comments_filter_form_comments" type="button" placeholder="Комментарии" value="80">Комментарии</button>
+                        </div>
+                        <div class="main__comments_filter_form_list">
+                            <select name="select" id="filter">
+                                <option value="По дате">По дате</option>
+                                <option value="По количеству оценок" selected>По количеству оценок</option>
+                                <option value="По актуальности">По актуальности</option>
+                                <option value="По количеству ответов">По количеству ответов</option>
+                            </select>
+                            <img class="main__comments_filter_form_list_img" src="images/svg/arrowBottom.svg" alt="стрелка вниз">
+                            <img class="main__comments_filter_form_list_img hidden" src="images/svg/arrowTop.svg" alt="стрелка вверх">
+                        </div>
+                        <div class="main__comments_filter_form_favorite">
+                            <button id="favories" type="button" placeholder="Избранное">Избранное</button>
+                            <img class="main__comments_filter_form_favorite_img" src="images/svg/like.svg" alt="like">
+                        </div>
+                        
+                    </form>
+                    <span class="main__comments_filter_SPfilter"></span>
+                </div>
+            </div>  
+       </main> 
+    </div>
+    
+</body>
+</html>
