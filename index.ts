@@ -60,3 +60,22 @@ function selectFilter(): void {
     })
 }
 selectFilter()
+
+// функция для увеличения высоты textarea
+
+const textAreaHeight = (() => {
+    function textInput(el: HTMLTextAreaElement): void {
+        el.style.height = '5px';
+        el.style.height = el.scrollHeight + 'px';
+    }
+
+    const textForm: HTMLTextAreaElement | null = document.querySelector('#inp-text');
+
+    if (textForm != null) {
+        textForm.addEventListener("input", function() {
+            textInput(this)
+        });
+    }
+})()
+
+

@@ -1,4 +1,3 @@
-"use strict";
 // замена стрелки в фильтре
 const filter = document.querySelector("#filter");
 const filterList = document.querySelector(".main__comments_filter_form_list");
@@ -59,3 +58,16 @@ function selectFilter() {
     });
 }
 selectFilter();
+// функция для увеличения высоты textarea
+const textAreaHeight = (() => {
+    function textInput(el) {
+        el.style.height = '5px';
+        el.style.height = el.scrollHeight + 'px';
+    }
+    const textForm = document.querySelector('#inp-text');
+    if (textForm != null) {
+        textForm.addEventListener("input", function () {
+            textInput(this);
+        });
+    }
+})();
