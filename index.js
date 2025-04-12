@@ -72,12 +72,13 @@ const textAreaHeight = (() => {
     }
 })();
 class formsComments {
-    constructor(img, name, data, text, like) {
+    constructor(img, name, data, text, like, nameAnswer) {
         this.img = img;
         this.name = name;
         this.data = data;
         this.text = text;
         this.like = like;
+        this.nameAnswer = nameAnswer;
     }
     comment() {
         const blockComments = document.querySelector(".main__comments_all-comments");
@@ -101,9 +102,33 @@ class formsComments {
                     </div>
                 </div>
             </div>
-            `;
+        `;
         blockComments.insertAdjacentHTML("afterbegin", newComment);
-        console.log("Мы здесь");
+    }
+    answer() {
+        const clickReply = document.querySelector('.main__comments_all-comments_ass');
+        const newAnswer = `
+            <div class="main__comments_all-comments_answers">
+                <div class="main__comments_all_form_photo">${this.img}</div>
+                <div class="main__comments_all_form_comment">
+                    <div class="main__comments_all_form_comment-block">   
+                        <span class="main__comments_all_form_comment_name">${this.name}</span>
+                        <div class="main__comments_all-comments_content_menu_answer"><img src="images/svg/answer.svg" alt="стрелка ответа" class="main__comments_all-comments_content_menu_img">${this.nameAnswer}</div>
+                        <span class="main__comments_all-comments_content-block_data">15.01 13:55</span>
+                    </div>     
+                    <div class="main__comments_all-comments_content_text">
+                        <p class="main__comments_all-comments_content_text-block main__comments_all-comments_answers_text">
+                        ${this.text}
+                        </p>
+                    </div>
+                    <div class="main__comments_all-comments_content_menu">
+                        <div class="main__comments_all-comments_content_menu_like-Favorites"><img src="images/svg/likeP.svg" alt="избранное" class="main__comments_all-comments_content_menu_img">В избранном</div>
+                        <div class="main__comments_all-comments_content_menu_like"><div class="main__comments_all-comments_content_menu_like_minus"><span>-</span></div>0<div class="main__comments_all-comments_content_menu_like_plus"><span>+</span></div></div>
+                    </div>
+                </div>
+            </div>
+        `;
+        clickReply.innerHTML = newAnswer;
     }
 }
 let blockImg = document.querySelector(".main__comments_all_form_photo");
@@ -115,7 +140,6 @@ const data = "06.04.25";
 const like = 0;
 const submit = document.querySelector("#inp-submit");
 let comments = [];
-console.log('comments: ', comments);
 loadComments();
 submit.addEventListener('click', (event) => {
     event.preventDefault();
@@ -129,7 +153,6 @@ submit.addEventListener('click', (event) => {
         like: like
     };
     comments.push(comment);
-    console.log('comments: ', comments);
     textArea.value = "";
     saveComments();
     showComments();
@@ -143,10 +166,88 @@ function loadComments() {
         comments = JSON.parse(localStorage.getItem('comments'));
     showComments();
 }
+// показать комментарии
 function showComments() {
     let comm = "";
     for (let item of comments) {
         comm = new formsComments(item.img, item.names, item.data, item.text, item.like);
         comm.comment();
+    }
+}
+// показать ответ на комментарий
+function showAnswerComments() {
+    let comm = "";
+    for (let item of comments) {
+        comm = new formsComments(item.img, item.names, item.data, item.text, item.like, item.nameAnswer);
+        comm.answer();
+    }
+}
+// class sendReply {
+//     constructor(img: string, name: string, nameAnswer: string, data: string, text: string, like: number){
+//         this.img = img;
+//         this.name = name;
+//         this.nameAnswer = nameAnswer;
+//         this.data = data;
+//         this.text = text;
+//         this.like = like;
+//     }
+// }
+// нажатие на кнопку ответить
+function createAnswers() {
+    const btnAnswers = [...document.querySelectorAll(".main__comments_all-comments_content_menu_answer")];
+    console.log('btnAnswers: ', btnAnswers);
+    if (btnAnswers == undefined)
+        return;
+    btnAnswers.forEach(value => {
+        value.addEventListener('click', (event) => {
+            let { target } = event;
+            const searchParentElement = target.closest(".main__comments_all-comments_content");
+            let nameAnswer = searchParentElement.querySelector(".main__comments_all_form_comment_name").textContent;
+            console.log('nameAnswer: ', nameAnswer);
+            const showAnswers = (() => {
+                let createsAnswer = `
+                <div class="main__comments_all-comments_ass">
+                    <form class="main__comments_all_form main__comments_all-comments_answers">
+                        <div class="main__comments_all_form_photo"><img src="images/png/photo.png" alt="аватар"></div>
+                        <div class="main__comments_all_form_comment new_style">
+                            <span class="main__comments_all_form_comment_name">Максим Авдеенко</span>
+                            <span class="main__comments_all_form_comment_symbols new_style">Макс. 1000 символов</span>
+                            <div class="main__comments_all_form_comment_send new_style">
+                                <textarea id="inp-text" class="main__comments_all_form_comment_send_inp-text new_style" maxlength="1000" placeholder="Введите текст сообщения..." name="comment" rows="1"></textarea>
+                                <button type="button" id="inp-submit" class="main__comments_all_form_comment_send_inp-submit new_style" placeholder="Отправить">Отправить</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>    
+            `;
+                searchParentElement.insertAdjacentHTML("afterend", createsAnswer);
+            })();
+            answerComment(nameAnswer);
+        });
+    });
+}
+createAnswers();
+function answerComment(nameAnswer) {
+    const btnAnswerComment = document.querySelector("#inp-submit.main__comments_all_form_comment_send_inp-submit.new_style");
+    if (btnAnswerComment === null)
+        return;
+    btnAnswerComment.addEventListener('click', btnSendAnswer);
+    function btnSendAnswer() {
+        let textAreaAnswer = document.querySelector("#inp-text.main__comments_all_form_comment_send_inp-text.new_style");
+        let text = textAreaAnswer.value;
+        // let nameAnswer = btnAnswerComment.querySelector(".main__comments_all_form_comment_name");
+        let comment = {
+            img: img,
+            names: names,
+            data: data,
+            text: text,
+            like: like,
+            nameAnswer: nameAnswer
+        };
+        comments.push(comment);
+        console.log("comment", comment);
+        textAreaAnswer.value = "";
+        // saveComments()
+        showAnswerComments();
     }
 }

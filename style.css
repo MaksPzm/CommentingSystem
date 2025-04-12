@@ -354,3 +354,20 @@ aside {
 .main__comments_all-comments_answers_text {
     width: 820px;
 }
+
+.main__comments_all_form_comment_send.new_style {
+    width: 920px;
+}
+
+#inp-text.main__comments_all_form_comment_send_inp-text.new_style {
+    width: 580px;
+}
+
+.main__comments_all_form_comment_symbols.new_style {
+    right: 240px;
+}
+
+.main__comments_all_form_comment.new_style {
+    width: 820px;
+}
+
