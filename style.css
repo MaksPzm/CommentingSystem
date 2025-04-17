@@ -289,6 +289,7 @@ aside {
 
 .main__comments_all-comments_content_menu,
 .main__comments_all-comments_content_menu_answer,
+.main__comments_all-comments_content_menu_answer_two,
 .main__comments_all-comments_content_menu_like-Favorites,
 .main__comments_all-comments_content_menu_like {
     display: flex;
@@ -355,7 +356,7 @@ aside {
     width: 820px;
 }
 
-.main__comments_all_form_comment_send.new_style {
+/* .main__comments_all_form_comment_send.new_style {
     width: 920px;
 }
 
@@ -370,4 +371,8 @@ aside {
 .main__comments_all_form_comment.new_style {
     width: 820px;
 }
+
+.main__comments_all-comments_answers.new_style {
+    margin-bottom: 28px;
+} */
 
