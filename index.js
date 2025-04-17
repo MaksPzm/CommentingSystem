@@ -182,17 +182,6 @@ function showAnswerComments() {
         comm.answer();
     }
 }
-// class sendReply {
-//     constructor(img: string, name: string, nameAnswer: string, data: string, text: string, like: number){
-//         this.img = img;
-//         this.name = name;
-//         this.nameAnswer = nameAnswer;
-//         this.data = data;
-//         this.text = text;
-//         this.like = like;
-//     }
-// }
-// нажатие на кнопку ответить
 function createAnswers() {
     const btnAnswers = [...document.querySelectorAll(".main__comments_all-comments_content_menu_answer")];
     console.log('btnAnswers: ', btnAnswers);
@@ -203,7 +192,6 @@ function createAnswers() {
             let { target } = event;
             const searchParentElement = target.closest(".main__comments_all-comments_content");
             let nameAnswer = searchParentElement.querySelector(".main__comments_all_form_comment_name").textContent;
-            console.log('nameAnswer: ', nameAnswer);
             const showAnswers = (() => {
                 let createsAnswer = `
                 <div class="main__comments_all-comments_ass">
@@ -235,7 +223,6 @@ function answerComment(nameAnswer) {
     function btnSendAnswer() {
         let textAreaAnswer = document.querySelector("#inp-text.main__comments_all_form_comment_send_inp-text.new_style");
         let text = textAreaAnswer.value;
-        // let nameAnswer = btnAnswerComment.querySelector(".main__comments_all_form_comment_name");
         let comment = {
             img: img,
             names: names,
@@ -245,7 +232,6 @@ function answerComment(nameAnswer) {
             nameAnswer: nameAnswer
         };
         comments.push(comment);
-        console.log("comment", comment);
         textAreaAnswer.value = "";
         // saveComments()
         showAnswerComments();
