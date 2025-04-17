@@ -69,13 +69,19 @@ const date = (() => {
 const like = 0;
 loadComments();
 function createComments() {
-    if (btnSend == null)
-        return;
     btnSend.addEventListener('click', sendNewComment);
+    textField.addEventListener('keydown', (event) => {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            btnSend.click();
+        }
+    });
 }
 createComments();
 function sendNewComment() {
     let content = textField.value;
+    if ((content.trim()) == "")
+        return; // метод trim() удаляет пробелы, тем самым мы проверяем пустую строку и что бы не было пробелов;
     const comment = {
         img: img,
         name: Name,
@@ -89,5 +95,8 @@ function sendNewComment() {
     textField.value = " ";
     saveComments();
     comments = [];
+    textField.placeholder = "Введите текст сообщения...";
 }
 // Комментарии доделал теперь нужно ответы
+function answer() {
+}
