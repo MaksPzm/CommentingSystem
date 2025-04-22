@@ -87,8 +87,8 @@ function showCommentsLoad() {
 function showCommentsAnswers() {
     let comm = "";
     for (let comment of answers) {
-        let topBlock = document.querySelector(`#${comment.id}`);
-        const elementComment = topBlock.querySelector(".main__comments_all-comments_content-new_block");
+        let topBlockComment = document.querySelector(`#${comment.id}`);
+        const elementComment = topBlockComment.querySelector(".main__comments_all-comments_content-new_block");
         comm = new CreateComments(comment.img, comment.name, comment.date, comment.content, comment.like, comment.answer);
         comm.createAnswer(elementComment);
     }
@@ -96,8 +96,8 @@ function showCommentsAnswers() {
 function showCommentsAnswersLoad() {
     let comm = "";
     for (let comment of answersLoad) {
-        let topBlock = document.querySelector(`#${comment.id}`);
-        const elementComment = topBlock.querySelector(".main__comments_all-comments_content-new_block");
+        let topBlockComment = document.querySelector(`#${comment.id}`);
+        const elementComment = topBlockComment.querySelector(".main__comments_all-comments_content-new_block");
         comm = new CreateComments(comment.img, comment.name, comment.date, comment.content, comment.like, comment.answer);
         comm.createAnswer(elementComment);
     }
