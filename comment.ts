@@ -1,67 +1,135 @@
-
 const formComments: Element = <Element>document.querySelector(".main__comments_all_form");
 const textField: HTMLTextAreaElement | null = formComments.querySelector("#inp-text.main__comments_all_form_comment_send_inp-text");
 const btnSend: HTMLButtonElement | null = formComments.querySelector("#inp-submit.main__comments_all_form_comment_send_inp-submit");
 
-let comments: any = [];
-let commentsLoad: any = [];
-// localStorage.clear()
+
 
 
 class CreateComments {
     img: HTMLImageElement | null;
     name: string;
-    date: string;
-    content: string;
-    like: number;
-    constructor(img: HTMLImageElement, name: string, date: string, content: string, like: number) {
+    date?: string;
+    content?: string;
+    like?: number;
+    answer?: string;
+    number?: number;
+    constructor(img: HTMLImageElement, name: string, date?: string, content?: string, like?: number, answer?: string, number?: number) {
         this.img = img;
         this.name = name;
         this.date = date;
         this.content = content;
         this.like = like;
+        this.answer = answer;
+        this.number = number;
     }
     public createComment() {
         const newComment = `
-            <div class="main__comments_all-comments_content main__comments_all-comments_content-new">
-                <div class="main__comments_all_form_photo">${this.img}</div>
-                <div class="main__comments_all_form_comment">
-                    <div class="main__comments_all_form_comment-block">   
-                        <span class="main__comments_all_form_comment_name">${this.name}</span>
-                        <span class="main__comments_all-comments_content-block_data">${this.date}</span>
-                    </div>     
-                    <div class="main__comments_all-comments_content_text">
-                        <p class="main__comments_all-comments_content_text-block">${this.content}</p>
+            <div id="comment-${this.number}" class="main__comments_all-comments_content main__comments_all-comments_content-new">
+                <div class="main__comments_all-comments_content-new_block">
+                    <div class="main__comments_all_form_photo">${this.img}</div>
+                    <div class="main__comments_all_form_comment">
+                        <div class="main__comments_all_form_comment-block">   
+                            <span class="main__comments_all_form_comment_name">${this.name}</span>
+                            <span class="main__comments_all-comments_content-block_data">${this.date}</span>
+                        </div>     
+                        <div class="main__comments_all-comments_content_text">
+                            <p class="main__comments_all-comments_content_text-block">${this.content}</p>
+                        </div>
+                        <div class="main__comments_all-comments_content_menu">
+                            <button class="main__comments_all-comments_content_menu_answer"><img src="images/svg/answer.svg" alt="стрелка ответа" class="main__comments_all-comments_content_menu_img">Ответить</button>
+                            <button class="main__comments_all-comments_content_menu_like-Favorites"><img src="images/svg/likeFavorit.svg" alt="избранное" class="main__comments_all-comments_content_menu_img">В избранном</button>
+                            <div class="main__comments_all-comments_content_menu_like"><div class="main__comments_all-comments_content_menu_like_minus"><span>-</span></div>${this.like}<div class="main__comments_all-comments_content_menu_like_plus"><span>+</span></div></div>
+                        </div>
                     </div>
-                    <div class="main__comments_all-comments_content_menu">
-                        <div class="main__comments_all-comments_content_menu_answer"><img src="images/svg/answer.svg" alt="стрелка ответа" class="main__comments_all-comments_content_menu_img">Ответить</div>
-                        <div class="main__comments_all-comments_content_menu_like-Favorites"><img src="images/svg/likeP.svg" alt="избранное" class="main__comments_all-comments_content_menu_img">В избранном</div>
-                        <div class="main__comments_all-comments_content_menu_like"><div class="main__comments_all-comments_content_menu_like_minus"><span>-</span></div>${this.like}<div class="main__comments_all-comments_content_menu_like_plus"><span>+</span></div></div>
-                    </div>
-                </div>
+                </div>    
             </div>
         `
         formComments.insertAdjacentHTML('afterend', newComment)
     }
+    public createAnswer(elementComment: any) {
+        const newAnswer = `
+            <div class="main__comments_all-comments_answers new_style">
+                <div class="main__comments_all_form_photo">${this.img}</div>
+                <div class="main__comments_all_form_comment">
+                    <div class="main__comments_all_form_comment-block">   
+                        <span class="main__comments_all_form_comment_name">${this.name}</span>
+                        <div class="main__comments_all-comments_content_menu_answer"><img src="images/svg/answer.svg" alt="стрелка ответа" class="main__comments_all-comments_content_menu_img">${this.answer}</div>
+                        <span class="main__comments_all-comments_content-block_data">${this.date}</span>
+                    </div>     
+                    <div class="main__comments_all-comments_content_text">
+                        <p class="main__comments_all-comments_content_text-block main__comments_all-comments_answers_text">
+                        ${this.content}
+                        </p>
+                    </div>
+                    <div class="main__comments_all-comments_content_menu">
+                        <div class="main__comments_all-comments_content_menu_like-Favorites"><img src="images/svg/likeP.svg" alt="избранное" class="main__comments_all-comments_content_menu_img">В избранное</div>
+                        <div class="main__comments_all-comments_content_menu_like"><div class="main__comments_all-comments_content_menu_like_minus"><span>-</span></div>${this.like}<div class="main__comments_all-comments_content_menu_like_plus"><span>+</span></div></div>
+                    </div>
+                </div>
+            </div>
+        `;
+        elementComment.insertAdjacentHTML('afterend', newAnswer);
+    }
 }
+
+let comments: any = [];
+
+let commentsLoad: any = [];
+let answers: any = [];
+
+let answersLoad: any = [];
+
+// localStorage.clear()
 
 function saveComments():void {
    localStorage.setItem("comments", JSON.stringify(commentsLoad));
+   localStorage.setItem("answers", JSON.stringify(answersLoad));
 }
 
 function showComments(): void {
     let comm: any = "";
     for (let comment of comments) {
-        comm = new CreateComments(comment.img, comment.name, comment.date, comment.content, comment.like);
+        console.log('comment: ', comment);
+        comm = new CreateComments(comment.img, comment.name, comment.date, comment.content, comment.like, comment.answer, comment.number);
         comm.createComment()
     }
     
 }
 
-function loadComments(): void {
-    if (localStorage.getItem('comments')) comments = JSON.parse(localStorage.getItem('comments'));
-    showComments()
+function showCommentsLoad(): void {
+    let comm: any = "";
+    for (let comment of commentsLoad) {
+        comm = new CreateComments(comment.img, comment.name, comment.date, comment.content, comment.like, comment.answer, comment.number);
+        comm.createComment()
+    }
     
+}
+
+function showCommentsAnswers(): void {
+    let comm: any = "";
+    for (let comment of answers) {
+        let topBlockComment = document.querySelector(`#${comment.id}`);
+        const elementComment = topBlockComment.querySelector(".main__comments_all-comments_content-new_block");
+        comm = new CreateComments(comment.img, comment.name, comment.date, comment.content, comment.like, comment.answer);
+        comm.createAnswer(elementComment)
+    }
+}
+
+function showCommentsAnswersLoad(): void {
+    let comm: any = "";
+    for (let comment of answersLoad) {
+        let topBlockComment = document.querySelector(`#${comment.id}`)
+        const elementComment = topBlockComment.querySelector(".main__comments_all-comments_content-new_block");
+        comm = new CreateComments(comment.img, comment.name, comment.date, comment.content, comment.like, comment.answer);
+        comm.createAnswer(elementComment)
+    }
+}
+
+function loadComments(): void {
+    if (localStorage.getItem('comments')) commentsLoad = JSON.parse(localStorage.getItem('comments'));
+    if (localStorage.getItem('answers')) answersLoad = JSON.parse(localStorage.getItem('answers'));
+    showCommentsLoad()
+    showCommentsAnswersLoad()
 }
 
 let img: string;
@@ -84,24 +152,31 @@ const date = (() => {
     return newDate
     
 })()
-const like = 0;
+let like = 0;
 loadComments()
+let click: any[] = [];
 
 function createComments(): void {
-    btnSend.addEventListener('click', sendNewComment);
+    btnSend.addEventListener('click', () => {
+        for (let i = 0; i <= commentsLoad.length; i++) {
+            click.push(i)
+        localStorage.setItem('click', JSON.stringify(click));    
+        }
+        
+        sendNewComment(click[click.length-1]) 
+    });
     
     textField.addEventListener('keydown', (event) => {
         if (event.key === "Enter") {
             event.preventDefault();
             btnSend.click();
         }
-       
     })
 }
 
 createComments()
 
-function sendNewComment() {
+function sendNewComment(i: number) {
     let content: string = textField.value;
     if ((content.trim()) == "") return; // метод trim() удаляет пробелы, тем самым мы проверяем пустую строку и что бы не было пробелов;
     const comment = {
@@ -109,7 +184,9 @@ function sendNewComment() {
         name: Name,
         date: date,
         content: content,
-        like: like
+        like: like,
+        answer: '0',
+        number: i
     };
     comments.push(comment);
     commentsLoad.push(comment);
@@ -118,12 +195,85 @@ function sendNewComment() {
     saveComments()
     comments = [];
     textField.placeholder = "Введите текст сообщения...";
+    location.reload()  
 }
 
-// Комментарии доделал теперь нужно ответы
+function answersComments() {
+    const commentField: HTMLDivElement = document.querySelector(".main__comments_all");
+    const btnAnswer: NodeListOf<Element> = commentField.querySelectorAll(".main__comments_all-comments_content_menu_answer");
+    
+    const answerComment = (() => {
+        btnAnswer.forEach(btnA => {
+            btnA.addEventListener('click', (event) => {
+                
+                let { target }: any = event;
+                const commentDivBlock: HTMLDivElement = target.closest(".main__comments_all-comments_content");
+               
+                const nameCommentator = commentDivBlock.querySelector(".main__comments_all_form_comment_name").textContent;
+                 
+                const buttonClickAnswer = (() => {
+                    const commentsAss = commentDivBlock.querySelector(".main__comments_all-comments_ass.active");
+                    console.log('commentsAss: ', commentsAss);
+                    const mainCommentBlock = commentDivBlock.querySelector(".main__comments_all-comments_content-new_block")
+                    let createsAnswer = `
+                        <div class="main__comments_all-comments_ass active">
+                            <form class="main__comments_all_form main__comments_all-comments_answers new_style">
+                                <div class="main__comments_all_form_photo"><img src="images/png/photo.png" alt="аватар"></div>
+                                <div class="main__comments_all_form_comment new_style">
+                                    <span class="main__comments_all_form_comment_name">Максим Авдеенко</span>
+                                    <span class="main__comments_all_form_comment_symbols new_style">Макс. 1000 символов</span>
+                                    <div class="main__comments_all_form_comment_send new_style">
+                                        <textarea id="inp-text" class="main__comments_all_form_comment_send_inp-text new_style" maxlength="1000" placeholder="Введите текст сообщения..." name="comment" rows="1"></textarea>
+                                        <button type="button" id="inp-submit" class="main__comments_all_form_comment_send_inp-submit new_style" placeholder="Отправить">Отправить</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>    
+                    `
+                    if (commentsAss == null) {
+                        mainCommentBlock.insertAdjacentHTML("afterend", createsAnswer);
+                    } 
+                })()
 
-function answer() {
+                btnAnswerSend()
+                
 
+                function btnAnswerSend() {
+                    const send = document.querySelectorAll(".main__comments_all_form_comment_send_inp-submit.new_style");
+                    if (send == null) return;
+                    send.forEach(btn => {
+                        btn.addEventListener('click', (event) => {
+                            let { target }: any = event;
+                            const answerDivBlock: HTMLDivElement = target.closest(".main__comments_all-comments_content-new");
+                            const textContentAnswer: string = answerDivBlock.querySelector(".main__comments_all_form_comment_send_inp-text.new_style").value;
+                            answersPush(textContentAnswer);
+                            showCommentsAnswers();
+                            answers = [];
+                            const formAns = answerDivBlock.querySelector(".main__comments_all-comments_ass");
+                            formAns.remove()
+                            function answersPush(textContentAnswer:any) {
+                                
+                                const answer = {
+                                    img: img,
+                                    name: Name,
+                                    date: date,
+                                    content: textContentAnswer,
+                                    like: like,
+                                    answer: nameCommentator, 
+                                    elementComment: commentDivBlock,
+                                    id: `${answerDivBlock.id}`
+                                }
+                                answers.push(answer);
+                                answersLoad.push(answer); 
+                                saveComments()
+                            }
+                        })
+                    })
+                }
+            })
+        })
+
+    })()   
 }
-
+answersComments()
 

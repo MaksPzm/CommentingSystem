@@ -259,6 +259,11 @@ aside {
 
 .main__comments_all-comments_content-new {
     margin-bottom: 40px;
+    flex-direction: column;
+}
+.main__comments_all-comments_content-new_block {
+    display: flex;
+    gap: 30px;
 }
 
 .main__comments_all_form_photo {
@@ -299,8 +304,34 @@ aside {
 }
 
 .main__comments_all-comments_content_menu_answer,
-.main__comments_all-comments_content_menu_like {
+.main__comments_all-comments_content_menu_like,
+.main__comments_all-comments_content_menu_answer_two {
     gap: 10px;
+}
+
+.main__comments_all-comments_content_menu_answer,
+.main__comments_all-comments_content_menu_like-Favorites {
+    border: none;
+    background-color: white;
+    font-size: 18px;
+    position: relative;
+}
+
+.main__comments_all-comments_content_menu_answer:hover,
+.main__comments_all-comments_content_menu_like-Favorites:hover {
+    background-color: rgb(204, 204, 204);
+    color: white;
+    border-radius: 5px;
+}
+
+.main__comments_all-comments_content_menu_answer::before,
+.main__comments_all-comments_content_menu_like-Favorites::before {
+    content: " ";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: block;
+    background-color: rgb(255, 255, 255, 0.0);
 }
 
 .main__comments_all-comments_content_menu_like-Favorites {
@@ -356,8 +387,8 @@ aside {
     width: 820px;
 }
 
-/* .main__comments_all_form_comment_send.new_style {
-    width: 920px;
+.main__comments_all_form_comment_send.new_style {
+    width: 820px;
 }
 
 #inp-text.main__comments_all_form_comment_send_inp-text.new_style {
@@ -374,5 +405,9 @@ aside {
 
 .main__comments_all-comments_answers.new_style {
     margin-bottom: 28px;
-} */
+}
 
+.main__comments_all-comments_answers.new_style {
+    margin-top: 0;
+    margin-bottom: 0;
+}
