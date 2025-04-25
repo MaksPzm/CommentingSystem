@@ -17,8 +17,8 @@ function createFilter() {
     const listDiv = `
         <div class="main__comments_filter_form_list_listBlock hidden">
         <ul class="main__comments_filter_form_list_listBlock_list">
-        <li class="main__comments_filter_form_list_listBlock_list_item">По дате</li>
-        <li class="main__comments_filter_form_list_listBlock_list_item active">По количеству оценок</li>
+        <li class="main__comments_filter_form_list_listBlock_list_item active">По дате</li>
+        <li class="main__comments_filter_form_list_listBlock_list_item">По количеству оценок</li>
         <li class="main__comments_filter_form_list_listBlock_list_item">По актуальности</li>
         <li class="main__comments_filter_form_list_listBlock_list_item">По количеству ответов</li>
         </ul>
@@ -70,4 +70,12 @@ const textAreaHeight = (() => {
             textInput(this);
         });
     }
+})();
+// делаем отображение колличество комментариев
+const quantityComments = (() => {
+    const blockComments = document.querySelectorAll(".main__comments_all-comments_content");
+    const lengthBlockComments = blockComments.length;
+    const btnComment = document.querySelector("#comment");
+    let valueTextContent = `Комментарии (${lengthBlockComments})`;
+    btnComment.innerText = valueTextContent;
 })();

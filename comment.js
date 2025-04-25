@@ -237,3 +237,18 @@ function answersComments() {
     })();
 }
 answersComments();
+// фильтрация объектов
+function filterComments() {
+    const formFilter = document.querySelector(".main__comments_filter_form_list");
+    const parse = JSON.parse(localStorage.getItem('comments'));
+    console.log('parse: ', parse);
+    formFilter.addEventListener('click', () => {
+        const filter = Array.from(document.querySelectorAll(".main__comments_filter_form_list_listBlock_list_item"));
+        // if (filter[0].classList.contains("active")) 
+        date;
+        console.log('date: ', date);
+    });
+    let pdate = parse[0].date;
+    console.log('parse[0].date: ', parse[0].date);
+}
+filterComments();
