@@ -5,6 +5,20 @@ const imgLike: NodeListOf<Element> = filterList.querySelectorAll(".main__comment
 
 filterList.addEventListener("click", showArrow);
 
+const select = ((): void => {
+    
+    let localSelect: string | null = localStorage.getItem("selectOptions");
+    let selectOp = 'По дате';
+    if (localSelect !== null) selectOp = localSelect; 
+    const options = `
+        <option value="По дате">${selectOp}</option>
+        <option value="По количеству оценок">По количеству оценок</option>
+        <option value="По актуальности">По актуальности</option>
+        <option value="По количеству ответов">По количеству ответов</option>
+    `;
+    filter.insertAdjacentHTML("afterbegin", options);
+})()
+
 function showArrow(): void {
     imgLike.forEach(img => {
         if(img.classList.contains('hidden')) {
@@ -24,8 +38,13 @@ function createFilter():void {
         <li class="main__comments_filter_form_list_listBlock_list_item">По актуальности</li>
         <li class="main__comments_filter_form_list_listBlock_list_item">По количеству ответов</li>
         </ul>
-    </div>`
-    filterList.insertAdjacentHTML("afterbegin", listDiv);
+    </div>` 
+    const listLocal: string | null = localStorage.getItem("filter");
+    if (listLocal == null) {
+        filterList.insertAdjacentHTML("afterbegin", listDiv)
+    } else {
+        filterList.insertAdjacentHTML("afterbegin", listLocal);
+    };
 }
 
 createFilter()
@@ -44,18 +63,22 @@ function showFilter(): void {
 
 function selectFilter(): void {
     const listFilterSelect: HTMLUListElement | null = document.querySelector(".main__comments_filter_form_list_listBlock_list");
-    const listFilterItem: NodeListOf<Element> | undefined = listFilterSelect?.querySelectorAll(".main__comments_filter_form_list_listBlock_list_item");
+    const listFilterItem: Element[] | undefined = Array.from(listFilterSelect?.querySelectorAll(".main__comments_filter_form_list_listBlock_list_item"));
+   
     if (listFilterSelect == null) return;
     if (listFilterItem == undefined) return;
     listFilterItem.forEach((item, index) => {
         item.addEventListener('click', (event) => {
+            JSON.stringify(localStorage.setItem("selectOptions", item.textContent));
             event.stopPropagation()
             showFilter()
-            showArrow() 
+            showArrow()
             filter.options[index].selected = true;
             listFilterItem.forEach(elem => elem.classList.remove('active'));
             item.classList.add('active');
             filter.options[index].selected = true;
+            let filterLocal: string = document.querySelector(".main__comments_filter_form_list_listBlock").outerHTML;
+            JSON.stringify(localStorage.setItem("filter", filterLocal)); 
         })
     })
 }

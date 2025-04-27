@@ -37,7 +37,7 @@ class CreateComments {
                         </div>
                         <div class="main__comments_all-comments_content_menu">
                             <button class="main__comments_all-comments_content_menu_answer"><img src="images/svg/answer.svg" alt="стрелка ответа" class="main__comments_all-comments_content_menu_img">Ответить</button>
-                            <button class="main__comments_all-comments_content_menu_like-Favorites"><img src="images/svg/likeFavorit.svg" alt="избранное" class="main__comments_all-comments_content_menu_img">В избранном</button>
+                            <button class="main__comments_all-comments_content_menu_like-Favorites"><img src="images/svg/likeP.svg" alt="избранное" class="main__comments_all-comments_content_menu_img">В избранное</button>
                             <div class="main__comments_all-comments_content_menu_like"><div class="main__comments_all-comments_content_menu_like_minus"><span>-</span></div>${this.like}<div class="main__comments_all-comments_content_menu_like_plus"><span>+</span></div></div>
                         </div>
                     </div>
@@ -230,6 +230,9 @@ function answersComments() {
                             </form>
                         </div>    
                     `
+                    const answersForm = Array.from(document.querySelectorAll(".main__comments_all-comments_ass.active"));
+                    if (answersForm.length !== 0) answersForm[0].remove();
+                    console.log('answersForm: ', answersForm);
                     if (commentsAss == null) {
                         mainCommentBlock.insertAdjacentHTML("afterend", createsAnswer);
                     } 
@@ -245,6 +248,7 @@ function answersComments() {
                         btn.addEventListener('click', (event) => {
                             let { target }: any = event;
                             const answerDivBlock: HTMLDivElement = target.closest(".main__comments_all-comments_content-new");
+                            console.log('answerDivBlock: ', answerDivBlock);
                             const textContentAnswer: string = answerDivBlock.querySelector(".main__comments_all_form_comment_send_inp-text.new_style").value;
                             answersPush(textContentAnswer);
                             showCommentsAnswers();
@@ -289,8 +293,20 @@ function filterComments():void {
         console.log('date: ', date);
          
     })
-    let pdate = parse[0].date
+    let arrayDate = [];
+    for (let i = 0; i < parse.length; i++) {
+        let newArrayDate = parse[i].date.replace(/\W|_/g, '');
+
+        console.log('newArrayDate: ', newArrayDate);
+        arrayDate.push(newArrayDate);
+        
+        
+    }
+    console.log('arrayDate: ', arrayDate);
+    let pdate = parse[0].date;
+    const result = pdate.replace(/\W|_/g, '');// регулярное выражение удаления ненужных символов
+    console.log('result: ', result);
     console.log('parse[0].date: ', parse[0].date);
 }
 
-filterComments()
+// filterComments()
