@@ -23,7 +23,7 @@ class CreateComments {
                         </div>
                         <div class="main__comments_all-comments_content_menu">
                             <button class="main__comments_all-comments_content_menu_answer"><img src="images/svg/answer.svg" alt="стрелка ответа" class="main__comments_all-comments_content_menu_img">Ответить</button>
-                            <button class="main__comments_all-comments_content_menu_like-Favorites"><img src="images/svg/likeP.svg" alt="избранное" class="main__comments_all-comments_content_menu_img">В избранное</button>
+                            <button class="main__comments_all-comments_content_menu_like-Favorites comment"><img src="images/svg/likeP.svg" alt="избранное" class="main__comments_all-comments_content_menu_img">В избранное</button>
                             <div class="main__comments_all-comments_content_menu_like"><div class="main__comments_all-comments_content_menu_like_minus"><span>-</span></div><div class="main__comments_all-comments_content_menu_like_num">${this.like}</div><div class="main__comments_all-comments_content_menu_like_plus"><span>+</span></div></div>
                         </div>
                     </div>
@@ -48,7 +48,7 @@ class CreateComments {
                         </p>
                     </div>
                     <div class="main__comments_all-comments_content_menu">
-                        <div class="main__comments_all-comments_content_menu_like-Favorites"><img src="images/svg/likeP.svg" alt="избранное" class="main__comments_all-comments_content_menu_img">В избранное</div>
+                        <div class="main__comments_all-comments_content_menu_like-Favorites answer"><img src="images/svg/likeP.svg" alt="избранное" class="main__comments_all-comments_content_menu_img">В избранное</div>
                         <div class="main__comments_all-comments_content_menu_like"><div class="main__comments_all-comments_content_menu_like_minus"><span>-</span></div><div class="main__comments_all-comments_content_menu_like_num-answer">${this.like}</div><div class="main__comments_all-comments_content_menu_like_plus"><span>+</span></div></div>
                     </div>
                 </div>

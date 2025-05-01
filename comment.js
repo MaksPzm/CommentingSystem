@@ -9,7 +9,6 @@ let answersLoad = [];
 function likes() {
     const comment = document.querySelectorAll(".main__comments_all-comments_content-new_block");
     const answer = document.querySelectorAll(".main__comments_all-comments_answers.new_style");
-    console.log('answer: ', answer);
     comment.forEach((value) => {
         const addLike = value.querySelector(".main__comments_all-comments_content_menu_like_plus");
         const removeLike = value.querySelector(".main__comments_all-comments_content_menu_like_minus");
@@ -64,7 +63,6 @@ function setLikeAnswer(event, num) {
     const { target } = event;
     const parent = target.closest(".main__comments_all-comments_content_menu_like");
     let parentLikeAnswer = parent.querySelector(".main__comments_all-comments_content_menu_like_num-answer");
-    console.log('parentLikeAnswer: ', parentLikeAnswer);
     parentLikeAnswer.innerText = +parentLikeAnswer.innerText + num;
     saveLikeAnswer(target, parentLikeAnswer);
 }
@@ -80,12 +78,9 @@ function saveLikeAnswer(target, parentLike) {
     const comment = target.closest(".main__comments_all-comments_answers.new_style");
     if (comment == null)
         return;
-    console.log('comment: ', comment);
     const index = comment.getAttribute("indexAnswer");
-    console.log('indexA: ', index);
     json[index].like = parentLike.innerText;
     localStorage.setItem("answers", JSON.stringify(json));
-    // по идексу найди комментарий и добавь ему лайки
 }
 function saveComments() {
     localStorage.setItem("comments", JSON.stringify(commentsLoad));
@@ -178,6 +173,7 @@ function sendNewComment(i) {
         content: content,
         like: like,
         answer: '0',
+        favourites: 0,
         number: i
     };
     comments.push(comment);
@@ -256,6 +252,7 @@ function answersComments() {
                                     answer: nameCommentator,
                                     elementComment: commentDivBlock,
                                     id: `${answerDivBlock.id}`,
+                                    favourites: 0,
                                     number: i
                                 };
                                 answers.push(answer);
@@ -272,27 +269,99 @@ function answersComments() {
 answersComments();
 colorLike();
 likes();
-// фильтрация объектов
-function filterComments() {
-    const formFilter = document.querySelector(".main__comments_filter_form_list");
-    const parse = JSON.parse(localStorage.getItem('comments'));
-    console.log('parse: ', parse);
-    formFilter.addEventListener('click', () => {
-        const filter = Array.from(document.querySelectorAll(".main__comments_filter_form_list_listBlock_list_item"));
-        // if (filter[0].classList.contains("active")) 
-        date;
-        console.log('date: ', date);
+console.log('commentsLoad: ', commentsLoad);
+const newFavourite = `<img src="images/svg/likeFavorit.svg" alt="избранное" class="main__comments_all-comments_content_menu_img">В избранном`;
+const Favourite = `<img src="images/svg/likeP.svg" alt="избранное" class="main__comments_all-comments_content_menu_img">В избранное`;
+function favourites() {
+    const btnFavourite = document.querySelectorAll(".main__comments_all-comments_content_menu_like-Favorites.comment");
+    btnFavourite.forEach(value => {
+        value.addEventListener("click", (event) => {
+            event.preventDefault();
+            let { target } = event;
+            let json = JSON.parse(localStorage.getItem("comments"));
+            const comment = target.closest(".main__comments_all-comments_content.main__comments_all-comments_content-new");
+            const index = comment.getAttribute("index");
+            if (json[index].favourites == 0) {
+                json[index].favourites = 1;
+                target.innerHTML = newFavourite;
+            }
+            else {
+                json[index].favourites = 0;
+                target.innerHTML = Favourite;
+            }
+            localStorage.setItem("comments", JSON.stringify(json));
+        });
     });
-    let arrayDate = [];
-    for (let i = 0; i < parse.length; i++) {
-        let newArrayDate = parse[i].date.replace(/\W|_/g, '');
-        console.log('newArrayDate: ', newArrayDate);
-        arrayDate.push(newArrayDate);
-    }
-    console.log('arrayDate: ', arrayDate);
-    let pdate = parse[0].date;
-    const result = pdate.replace(/\W|_/g, ''); // регулярное выражение удаления ненужных символов
-    console.log('result: ', result);
-    console.log('parse[0].date: ', parse[0].date);
 }
+function FavoritesAnswer() {
+    const btnFavourite = document.querySelectorAll(".main__comments_all-comments_content_menu_like-Favorites.answer");
+    btnFavourite.forEach(value => {
+        value.addEventListener("click", (event) => {
+            event.preventDefault();
+            let { target } = event;
+            let json = JSON.parse(localStorage.getItem("answers"));
+            const comment = target.closest(".main__comments_all-comments_answers.new_style");
+            const index = comment.getAttribute("indexanswer");
+            if (json[index].favourites == 0) {
+                json[index].favourites = 1;
+                target.innerHTML = newFavourite;
+            }
+            else {
+                json[index].favourites = 0;
+                target.innerHTML = Favourite;
+            }
+            localStorage.setItem("answers", JSON.stringify(json));
+        });
+    });
+}
+favourites();
+FavoritesAnswer();
+const loadCommentsFavourite = (() => {
+    commentsLoad.forEach((value, index) => {
+        const comments = document.querySelector(`#comment-${index}`);
+        const comment = comments.querySelector(".main__comments_all-comments_content-new_block");
+        const favorites = comment.querySelector(".main__comments_all-comments_content_menu_like-Favorites.comment");
+        if (commentsLoad[index].favourites == 1) {
+            favorites.innerHTML = newFavourite;
+        }
+        else {
+            favorites.innerHTML = Favourite;
+        }
+    });
+})();
+const loadAnswersFavourite = (() => {
+    answersLoad.forEach((value, index) => {
+        const answer = document.querySelector(`[indexAnswer="${index}"]`);
+        const favorite = answer.querySelector(".main__comments_all-comments_content_menu_like-Favorites.answer");
+        if (answersLoad[index].favourites == 1) {
+            favorite.innerHTML = newFavourite;
+        }
+        else {
+            favorite.innerHTML = Favourite;
+        }
+    });
+})();
+// фильтрация объектов
+// function filterComments():void {
+//     const formFilter = document.querySelector(".main__comments_filter_form_list");
+//     const parse = JSON.parse(localStorage.getItem('comments'));
+//     console.log('parse: ', parse);
+//     formFilter.addEventListener('click', () => {
+//         const filter = Array.from(document.querySelectorAll(".main__comments_filter_form_list_listBlock_list_item"));
+//         // if (filter[0].classList.contains("active")) 
+//         date
+//         console.log('date: ', date);
+//     })
+//     let arrayDate = [];
+//     for (let i = 0; i < parse.length; i++) {
+//         let newArrayDate = parse[i].date.replace(/\W|_/g, '');
+//         console.log('newArrayDate: ', newArrayDate);
+//         arrayDate.push(newArrayDate);
+//     }
+//     console.log('arrayDate: ', arrayDate);
+//     let pdate = parse[0].date;
+//     const result = pdate.replace(/\W|_/g, '');// регулярное выражение удаления ненужных символов
+//     console.log('result: ', result);
+//     console.log('parse[0].date: ', parse[0].date);
+// }
 // filterComments()
