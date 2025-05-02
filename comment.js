@@ -5,6 +5,7 @@ let comments = [];
 let commentsLoad = [];
 let answers = [];
 let answersLoad = [];
+loadComments();
 // localStorage.clear()
 function likes() {
     const comment = document.querySelectorAll(".main__comments_all-comments_content-new_block");
@@ -20,38 +21,45 @@ function likes() {
             setLike(event, -1);
             colorLike();
         });
-        answer.forEach((value) => {
-            const addLike = value.querySelector(".main__comments_all-comments_content_menu_like_plus");
-            const removeLike = value.querySelector(".main__comments_all-comments_content_menu_like_minus");
-            addLike.addEventListener("click", (event) => {
-                setLikeAnswer(event, 1);
-                colorLike();
-            });
-            removeLike.addEventListener("click", (event) => {
-                setLikeAnswer(event, -1);
-                colorLike();
-            });
+    });
+    answer.forEach((ans) => {
+        const addLike = ans.querySelector(".main__comments_all-comments_content_menu_like_plus");
+        const removeLike = ans.querySelector(".main__comments_all-comments_content_menu_like_minus");
+        addLike.addEventListener("click", (event) => {
+            event.preventDefault();
+            setLikeAnswer(event, 1);
+            colorLikeAnswers();
+        });
+        removeLike.addEventListener("click", (event) => {
+            event.preventDefault();
+            setLikeAnswer(event, -1);
+            colorLikeAnswers();
         });
     });
 }
 function colorLike() {
-    let like = document.querySelector(".main__comments_all-comments_content_menu_like_num");
-    let likeAnswer = document.querySelector(".main__comments_all-comments_content_menu_like_num-answer");
-    if (Number(like.innerText) >= 0 && like != null) {
-        like.style.color = "rgba(138, 197, 64, 1)";
-    }
-    else {
-        like.style.color = "rgba(255, 0, 0, 1)";
-    }
-    if (Number(likeAnswer.innerText) >= 0 && likeAnswer != null) {
-        likeAnswer.style.color = "rgba(138, 197, 64, 1)";
-    }
-    else {
-        likeAnswer.style.color = "rgba(255, 0, 0, 1)";
-    }
+    let likes = document.querySelectorAll(".main__comments_all-comments_content_menu_like_num");
+    likes.forEach((like) => {
+        if (Number(like.innerText) >= 0) {
+            like.style.color = "rgba(138, 197, 64, 1)";
+        }
+        else {
+            like.style.color = "rgba(255, 0, 0, 1)";
+        }
+    });
+}
+function colorLikeAnswers() {
+    let likesAnswer = document.querySelectorAll(".main__comments_all-comments_content_menu_like_num-answer");
+    likesAnswer.forEach((value) => {
+        if (Number(value.innerText) >= 0) {
+            value.style.color = "rgba(138, 197, 64, 1)";
+        }
+        else {
+            value.style.color = "rgba(255, 0, 0, 1)";
+        }
+    });
 }
 function setLike(event, num) {
-    event.preventDefault();
     const { target } = event;
     const parent = target.closest(".main__comments_all-comments_content_menu_like");
     let parentLike = parent.querySelector(".main__comments_all-comments_content_menu_like_num");
@@ -59,7 +67,6 @@ function setLike(event, num) {
     saveLike(target, parentLike);
 }
 function setLikeAnswer(event, num) {
-    event.preventDefault();
     const { target } = event;
     const parent = target.closest(".main__comments_all-comments_content_menu_like");
     let parentLikeAnswer = parent.querySelector(".main__comments_all-comments_content_menu_like_num-answer");
@@ -144,13 +151,11 @@ const date = (() => {
     return newDate;
 })();
 let like = 0;
-loadComments();
 let click = [];
 function createComments() {
     btnSend.addEventListener('click', () => {
         for (let i = 0; i <= commentsLoad.length; i++) {
             click.push(i);
-            localStorage.setItem('click', JSON.stringify(click));
         }
         sendNewComment(click[click.length - 1]);
     });
@@ -196,7 +201,6 @@ function answersComments() {
                 const nameCommentator = commentDivBlock.querySelector(".main__comments_all_form_comment_name").textContent;
                 const buttonClickAnswer = (() => {
                     const commentsAss = commentDivBlock.querySelector(".main__comments_all-comments_ass.active");
-                    console.log('commentsAss: ', commentsAss);
                     const mainCommentBlock = commentDivBlock.querySelector(".main__comments_all-comments_content-new_block");
                     let createsAnswer = `
                         <div class="main__comments_all-comments_ass active">
@@ -216,7 +220,6 @@ function answersComments() {
                     const answersForm = Array.from(document.querySelectorAll(".main__comments_all-comments_ass.active"));
                     if (answersForm.length !== 0)
                         answersForm[0].remove();
-                    console.log('answersForm: ', answersForm);
                     if (commentsAss == null) {
                         mainCommentBlock.insertAdjacentHTML("afterend", createsAnswer);
                     }
@@ -227,16 +230,15 @@ function answersComments() {
                     const send = document.querySelectorAll(".main__comments_all_form_comment_send_inp-submit.new_style");
                     if (send == null)
                         return;
-                    send.forEach(btn => {
+                    send.forEach((btn) => {
                         btn.addEventListener('click', (event) => {
                             for (let i = 0; i <= answersLoad.length; i++) {
                                 answerBtnClick.push(i);
-                                localStorage.setItem('answerBtnClick', JSON.stringify(answerBtnClick));
                             }
                             let { target } = event;
                             const answerDivBlock = target.closest(".main__comments_all-comments_content-new");
-                            console.log('answerDivBlock: ', answerDivBlock);
-                            const textContentAnswer = answerDivBlock.querySelector(".main__comments_all_form_comment_send_inp-text.new_style").value;
+                            const contentAnswer = answerDivBlock.querySelector(".main__comments_all_form_comment_send_inp-text.new_style");
+                            const textContentAnswer = contentAnswer.value;
                             answersPush(textContentAnswer, answerBtnClick[answerBtnClick.length - 1]);
                             showCommentsAnswers();
                             answers = [];
@@ -260,6 +262,15 @@ function answersComments() {
                                 saveComments();
                             }
                         });
+                        const textFieldAnswers = document.querySelector(".main__comments_all_form_comment_send_inp-text.new_style");
+                        if (textFieldAnswers !== null) {
+                            textFieldAnswers.addEventListener('keydown', (event) => {
+                                if (event.key === "Enter") {
+                                    event.preventDefault();
+                                    btn.click();
+                                }
+                            });
+                        }
                     });
                 }
             });
@@ -268,8 +279,8 @@ function answersComments() {
 }
 answersComments();
 colorLike();
+colorLikeAnswers();
 likes();
-console.log('commentsLoad: ', commentsLoad);
 const newFavourite = `<img src="images/svg/likeFavorit.svg" alt="избранное" class="main__comments_all-comments_content_menu_img">В избранном`;
 const Favourite = `<img src="images/svg/likeP.svg" alt="избранное" class="main__comments_all-comments_content_menu_img">В избранное`;
 function favourites() {
@@ -314,6 +325,7 @@ function FavoritesAnswer() {
         });
     });
 }
+filterAdd();
 favourites();
 FavoritesAnswer();
 const loadCommentsFavourite = (() => {
@@ -341,27 +353,44 @@ const loadAnswersFavourite = (() => {
         }
     });
 })();
-// фильтрация объектов
-// function filterComments():void {
-//     const formFilter = document.querySelector(".main__comments_filter_form_list");
-//     const parse = JSON.parse(localStorage.getItem('comments'));
-//     console.log('parse: ', parse);
-//     formFilter.addEventListener('click', () => {
-//         const filter = Array.from(document.querySelectorAll(".main__comments_filter_form_list_listBlock_list_item"));
-//         // if (filter[0].classList.contains("active")) 
-//         date
-//         console.log('date: ', date);
-//     })
-//     let arrayDate = [];
-//     for (let i = 0; i < parse.length; i++) {
-//         let newArrayDate = parse[i].date.replace(/\W|_/g, '');
-//         console.log('newArrayDate: ', newArrayDate);
-//         arrayDate.push(newArrayDate);
-//     }
-//     console.log('arrayDate: ', arrayDate);
-//     let pdate = parse[0].date;
-//     const result = pdate.replace(/\W|_/g, '');// регулярное выражение удаления ненужных символов
-//     console.log('result: ', result);
-//     console.log('parse[0].date: ', parse[0].date);
-// }
-// filterComments()
+function filterAdd() {
+    const blockFilter = document.querySelector(".main__comments_filter_form_list");
+    blockFilter.addEventListener('click', () => {
+        const listFilter = document.querySelector(".main__comments_filter_form_list_listBlock_list");
+        if (listFilter == null)
+            return;
+        const itemList = listFilter.querySelectorAll(".main__comments_filter_form_list_listBlock_list_item");
+        console.log('itemList: ', itemList);
+        const jsonComment = JSON.parse(localStorage.getItem("comments"));
+        console.log('jsonComment: ', jsonComment);
+        itemList[1].addEventListener("click", (event) => {
+            event.preventDefault();
+            let sortJsonComment = jsonComment.sort((a, b) => parseFloat(a.like) - parseFloat(b.like)); // сортируем что бы поменять местами элементы массива, от min к max;
+            localStorage.setItem("comments", JSON.stringify(sortJsonComment));
+            location.reload();
+        });
+        itemList[0].addEventListener("click", (event) => {
+            event.preventDefault();
+            jsonComment.forEach((value, index) => {
+                let newdate = jsonComment[index].date;
+                jsonComment[index].date = newdate.replace(/\W|_/g, '');
+                let sortJsonComment = jsonComment.sort((a, b) => parseFloat(a.date) - parseFloat(b.date)); // сортируем что бы поменять местами элементы массива, от min к max;
+                let newJsonComment = jsonComment[index].date.replace(/(\d{1,2})(\d{2})(\d{2})(\d{2})/g, '$1:$2 $3:$4'); // втавляем все символы наместо;
+                localStorage.setItem("comments", JSON.stringify(sortJsonComment));
+                jsonComment[index].date = newJsonComment;
+                localStorage.setItem("comments", JSON.stringify(jsonComment));
+                location.reload();
+            });
+        });
+        itemList[2].addEventListener("click", (event) => {
+            event.preventDefault();
+            jsonComment.forEach((value, index) => {
+                let newdate = jsonComment[index].favourites;
+                let sortJsonComment = jsonComment.sort((a, b) => parseFloat(a.favourites) - parseFloat(b.favourites));
+                localStorage.setItem("comments", JSON.stringify(sortJsonComment));
+            });
+            location.reload();
+            // Работает не корректно
+        });
+    });
+}
