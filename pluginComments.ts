@@ -4,9 +4,9 @@ class CreateComments {
     date?: string;
     content?: string;
     like?: number;
-    answer?: string;
+    answer?: number;
     number?: number;
-    constructor(img: HTMLImageElement, name: string, date?: string, content?: string, like?: number, answer?: string, number?: number) {
+    constructor(img: HTMLImageElement, name: string, date?: string, content?: string, like?: number, answer?: number, number?: number) {
         this.img = img;
         this.name = name;
         this.date = date;

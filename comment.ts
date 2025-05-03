@@ -1,12 +1,14 @@
 const formComments: Element = <Element>document.querySelector(".main__comments_all_form");
 const textField: HTMLTextAreaElement | null = formComments.querySelector("#inp-text.main__comments_all_form_comment_send_inp-text");
 const btnSend: HTMLButtonElement | null = formComments.querySelector("#inp-submit.main__comments_all_form_comment_send_inp-submit");
-
+const newFavourite = `<img src="images/svg/likeFavorit.svg" alt="избранное" class="main__comments_all-comments_content_menu_img">В избранном`;
+const Favourite = `<img src="images/svg/likeP.svg" alt="избранное" class="main__comments_all-comments_content_menu_img">В избранное`;
 let comments: any = [];
 let commentsLoad: any = [];
 let answers: any = [];
 let answersLoad: any = [];
 loadComments()
+
 // localStorage.clear()
 
 function likes(): void {
@@ -204,7 +206,7 @@ function sendNewComment(i: number) {
         date: date,
         content: content,
         like: like,
-        answer: '0',
+        answer: 0,
         favourites: 0,
         number: i
     };
@@ -317,8 +319,7 @@ answersComments()
 colorLike()
 colorLikeAnswers()
 likes()
-const newFavourite = `<img src="images/svg/likeFavorit.svg" alt="избранное" class="main__comments_all-comments_content_menu_img">В избранном`;
-const Favourite = `<img src="images/svg/likeP.svg" alt="избранное" class="main__comments_all-comments_content_menu_img">В избранное`;
+
 
 function favourites(): void {
     const btnFavourite = document.querySelectorAll(".main__comments_all-comments_content_menu_like-Favorites.comment");
@@ -327,8 +328,10 @@ function favourites(): void {
             event.preventDefault()
             let { target }: any = event;
             let json = JSON.parse(localStorage.getItem("comments"));
+            console.log('json: ', json);
             const comment = target.closest(".main__comments_all-comments_content.main__comments_all-comments_content-new");
             const index = comment.getAttribute("index");
+            console.log('index: ', index);
             if (json[index].favourites == 0) {
                 json[index].favourites = 1;
                 target.innerHTML = newFavourite;
@@ -337,6 +340,7 @@ function favourites(): void {
                 target.innerHTML = Favourite;
             }
             localStorage.setItem("comments", JSON.stringify(json));
+            // location.reload()
         })
     })
 }
@@ -361,10 +365,10 @@ function FavoritesAnswer(): void {
         })
     })
 }
-filterAdd()
-favourites()
-FavoritesAnswer()
 
+
+
+filterAdd()
 
 const loadCommentsFavourite = ((): void => {
     commentsLoad.forEach((value: HTMLDivElement, index: number) => {
@@ -392,48 +396,89 @@ const loadAnswersFavourite = ((): void => {
 })()
 
 
-function filterAdd(): void {
+function filterAdd(): void { // ф-ция выбора фильтра;
     const blockFilter: HTMLDivElement = document.querySelector(".main__comments_filter_form_list");
     blockFilter.addEventListener('click', () => {
         const listFilter: HTMLUListElement | null = document.querySelector(".main__comments_filter_form_list_listBlock_list");
         if (listFilter == null) return;
         const itemList = listFilter.querySelectorAll(".main__comments_filter_form_list_listBlock_list_item");
-        console.log('itemList: ', itemList);
         const jsonComment = JSON.parse(localStorage.getItem("comments"));
-        console.log('jsonComment: ', jsonComment);
         itemList[1].addEventListener("click", (event) => {
             event.preventDefault();
             let sortJsonComment = jsonComment.sort((a: any, b: any) => parseFloat(a.like) - parseFloat(b.like)); // сортируем что бы поменять местами элементы массива, от min к max;
             localStorage.setItem("comments", JSON.stringify(sortJsonComment));
+            
             location.reload()
         })
         itemList[0].addEventListener("click", (event) => {
             event.preventDefault();
             jsonComment.forEach((value: HTMLLIElement, index: number) => {
-                let newdate = jsonComment[index].date;
-                jsonComment[index].date = newdate.replace(/\W|_/g, '');
-                let sortJsonComment = jsonComment.sort((a: any, b: any) => parseFloat(a.date) - parseFloat(b.date)); // сортируем что бы поменять местами элементы массива, от min к max;
-                let newJsonComment = jsonComment[index].date.replace(/(\d{1,2})(\d{2})(\d{2})(\d{2})/g, '$1:$2 $3:$4'); // втавляем все символы наместо;
+                // let newdate = jsonComment[index].date;
+                // jsonComment[index].date = newdate.replace(/\W|_/g, ''); удаляем все символы кроме цифр
+                // let sortJsonComment = jsonComment.sort((a: any, b: any) => parseFloat(a.date) - parseFloat(b.date)); // сортируем что бы поменять местами элементы массива, от min к max;
+                // let newJsonComment = jsonComment[index].date.replace(/(\d{1,2})(\d{2})(\d{2})(\d{2})/g, '$1:$2 $3:$4'); // втавляем все символы наместо;
+                // localStorage.setItem("comments", JSON.stringify(sortJsonComment));
+                // jsonComment[index].date = newJsonComment;
+                // localStorage.setItem("comments", JSON.stringify(jsonComment));
+                // location.reload()
+                let sortJsonComment = jsonComment.sort((a: any, b: any) => parseFloat(a.number) - parseFloat(b.number));
                 localStorage.setItem("comments", JSON.stringify(sortJsonComment));
-                jsonComment[index].date = newJsonComment;
-                localStorage.setItem("comments", JSON.stringify(jsonComment));
                 location.reload()
             })
         })
         itemList[2].addEventListener("click", (event) => {
             event.preventDefault();
-            jsonComment.forEach((value, index) => {
-                let newdate = jsonComment[index].favourites;
-                let sortJsonComment = jsonComment.sort((a: any, b: any) => parseFloat(a.favourites) - parseFloat(b.favourites)); 
-                localStorage.setItem("comments", JSON.stringify(sortJsonComment));
-                
-            })
+            let sortJsonComment = jsonComment.sort((a: any, b: any) => parseFloat(a.favourites) - parseFloat(b.favourites)); 
+            localStorage.setItem("comments", JSON.stringify(sortJsonComment));
             location.reload()
-            // Работает не корректно
+            
         })
+        itemList[3].addEventListener("click", (event) => {
+            event.preventDefault();
+            let sortJsonComment = jsonComment.sort((a: any, b: any) => parseFloat(a.answer) - parseFloat(b.answer));
+            localStorage.setItem("comments", JSON.stringify(sortJsonComment));
+            location.reload()
+        })
+        
     })
-    
-
 }
+
+function numberResponses(): void { // функция для записи колличество ответов на комментарии в localStorage;
+    const commentBlock = document.querySelectorAll(".main__comments_all-comments_content.main__comments_all-comments_content-new");
+    const json = JSON.parse(localStorage.getItem("comments"));
+    commentBlock.forEach((comment: HTMLDivElement, index: number) => {
+        const answer = comment.querySelectorAll(".main__comments_all-comments_answers.new_style");
+        let numRespons = answer.length;
+        const commentIndex = comment.getAttribute("index")
+        json[commentIndex].answer = numRespons;
+        localStorage.setItem("comments", JSON.stringify(json))
+    })
+}
+
+numberResponses()
+
+
+
+function favoritesShow(): void { // функция определяет какой комментарий добавлен в избранное
+    const json = JSON.parse(localStorage.getItem("comments"));
+    json.forEach((value: object, index: number) => {
+        const indexNum = json[index].number;
+        const commentBloc = document.querySelector(`#comment-${indexNum}`);
+        const comment = commentBloc.querySelector(".main__comments_all-comments_content-new_block");
+        const favouritesBtn = comment.querySelector(".main__comments_all-comments_content_menu_like-Favorites.comment")
+        if (json[index].favourites == 1) {
+            favouritesBtn.innerHTML = newFavourite
+        } else {
+            favouritesBtn.innerHTML = Favourite
+        }
+    })
+}
+
+favourites()
+FavoritesAnswer()
+favoritesShow()
+
+
+
 
 

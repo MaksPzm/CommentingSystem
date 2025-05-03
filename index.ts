@@ -112,3 +112,37 @@ const quantityComments = ((): void => {
     btnComment.innerText = valueTextContent;
 })()
 
+// функция счётчик отображения колличества символов в текстовом поле;
+function textareaSymbol(): void {
+    const ta: HTMLTextAreaElement = document.querySelector("#inp-text"); // textarea
+    const counter: HTMLSpanElement = document.querySelector(".main__comments_all_form_comment_symbols"); // счётчик
+    const text = `
+        <div class="main__comments_all_form_comment_symbols_text">Слишком длинное сообщение</div>
+    `;
+    const buttonComment = document.querySelector("#inp-submit");
+    ta.addEventListener('input', (event: any) => {
+        const length = event.target.value.length;
+        counter.textContent = `${length}/1000`;
+        if (length > 0) {
+            ta.style.opacity = "100%";
+        } else {
+            ta.style.opacity = "40%";
+        }
+        if (length >= 1000) {
+            counter.style.color = "rgba(255, 0, 0, 1)";
+            counter.style.opacity = "100%";
+            formComments.insertAdjacentHTML("beforeend", text);
+            buttonComment.setAttribute("disabled", '');
+        } else {
+            counter.style.color = "rgba(0, 0, 0, 1)";
+            counter.style.opacity = "40%";
+            const text = document.querySelector(".main__comments_all_form_comment_symbols_text").remove();
+            buttonComment.removeAttribute("disabled");
+        }
+    })
+}
+
+textareaSymbol()
+
+
+// доделать колличество символов у ответов
