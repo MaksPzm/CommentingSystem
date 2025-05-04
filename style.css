@@ -251,6 +251,7 @@ aside {
 #inp-submit:hover {
     background-color: rgba(171, 216, 115, 1);
     opacity: 100%;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
 }
 
 .main__comments_all-comments_content {
@@ -420,4 +421,12 @@ aside {
     position: absolute;
     top: -2px;
     right: 7px;
+}
+
+.main__comments_all-comments_ass.active {
+    position: relative;
+}
+
+.main__comments_all-comments_ass.active .main__comments_all_form_comment_symbols_text {
+    right: -3px;
 }

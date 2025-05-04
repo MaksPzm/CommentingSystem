@@ -243,7 +243,7 @@ function answersComments() {
                                     <span class="main__comments_all_form_comment_name">Максим Авдеенко</span>
                                     <span class="main__comments_all_form_comment_symbols new_style">Макс. 1000 символов</span>
                                     <div class="main__comments_all_form_comment_send new_style">
-                                        <textarea id="inp-text" class="main__comments_all_form_comment_send_inp-text new_style" maxlength="1000" placeholder="Введите текст сообщения..." name="comment" rows="1"></textarea>
+                                        <textarea id="inp-text" class="main__comments_all_form_comment_send_inp-text new_style" placeholder="Введите текст сообщения..." name="comment" rows="1"></textarea>
                                         <button type="button" id="inp-submit" class="main__comments_all_form_comment_send_inp-submit new_style" placeholder="Отправить">Отправить</button>
                                     </div>
                                 </div>

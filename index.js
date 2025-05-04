@@ -110,8 +110,55 @@ function textareaSymbol() {
         <div class="main__comments_all_form_comment_symbols_text">Слишком длинное сообщение</div>
     `;
     const buttonComment = document.querySelector("#inp-submit");
-    ta.addEventListener('input', (event) => {
+    const btnAnswers = Array.from(document.querySelectorAll(".main__comments_all-comments_content_menu_answer"));
+    ta.addEventListener('input', textareaLength);
+    btnAnswers.forEach((btn) => {
+        btn.addEventListener('click', () => {
+            const taAnswer = document.querySelector(".main__comments_all_form_comment_send_inp-text.new_style");
+            const counterAnswer = document.querySelector(".main__comments_all_form_comment_symbols.new_style");
+            const btnComAnswer = document.querySelector(".main__comments_all_form_comment_send_inp-submit.new_style");
+            const formAnswer = document.querySelector(".main__comments_all-comments_ass.active");
+            if (taAnswer == null)
+                return;
+            taAnswer.addEventListener("input", textareaLengthAnswer);
+            function textareaLengthAnswer(event) {
+                const length = event.target.value.length;
+                counterAnswer.textContent = `${length}/1000`;
+                const textSp = document.querySelector(".main__comments_all_form_comment_symbols_text");
+                if (length > 0) {
+                    taAnswer.style.opacity = "100%";
+                }
+                else {
+                    taAnswer.style.opacity = "40%";
+                }
+                if (length >= 1000) {
+                    counterAnswer.style.color = "rgba(255, 0, 0, 1)";
+                    counterAnswer.style.opacity = "100%";
+                    formAnswer.insertAdjacentHTML("afterbegin", text);
+                    btnComAnswer.setAttribute("disabled", '');
+                }
+                else {
+                    counterAnswer.style.color = "rgba(0, 0, 0, 1)";
+                    counterAnswer.style.opacity = "40%";
+                    btnComAnswer.removeAttribute("disabled");
+                }
+                if (length > 0 && length <= 1000) {
+                    btnComAnswer.style.backgroundColor = "rgba(171, 216, 115, 1)";
+                    btnComAnswer.style.color = "rgba(0, 0, 0, 1)";
+                    btnComAnswer.style.opacity = "100%";
+                }
+                else {
+                    btnComAnswer.style.opacity = "40%";
+                    btnComAnswer.style.backgroundColor = "rgba(161, 161, 161, 1)";
+                }
+                if (textSp != null)
+                    textSp.remove();
+            }
+        });
+    });
+    function textareaLength(event) {
         const length = event.target.value.length;
+        console.log('length!c: ', length);
         counter.textContent = `${length}/1000`;
         if (length > 0) {
             ta.style.opacity = "100%";
@@ -128,10 +175,20 @@ function textareaSymbol() {
         else {
             counter.style.color = "rgba(0, 0, 0, 1)";
             counter.style.opacity = "40%";
-            const text = document.querySelector(".main__comments_all_form_comment_symbols_text").remove();
+            const text = document.querySelector(".main__comments_all_form_comment_symbols_text");
+            if (text != null)
+                text.remove();
             buttonComment.removeAttribute("disabled");
         }
-    });
+        if (length > 0 && length <= 1000) {
+            buttonComment.style.backgroundColor = "rgba(171, 216, 115, 1)";
+            buttonComment.style.color = "rgba(0, 0, 0, 1)";
+            buttonComment.style.opacity = "100%";
+        }
+        else {
+            buttonComment.style.opacity = "40%";
+            buttonComment.style.backgroundColor = "rgba(161, 161, 161, 1)";
+        }
+    }
 }
 textareaSymbol();
-// доделать колличество символов у ответов
