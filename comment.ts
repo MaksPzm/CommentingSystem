@@ -157,10 +157,15 @@ function loadComments(): void {
 
 let img: string;
 let Name: string;
-if (formComments !== null) {
+
+function searchName(): void {
+    if (formComments !== null) {
     img = formComments.querySelector(".main__comments_all_form_photo img").outerHTML;
+    console.log('img: ', img);
     Name = formComments.querySelector(".main__comments_all_form_comment_name").textContent;
-}
+    }
+};
+
 
 const date = (() => {
     
@@ -181,6 +186,7 @@ let click: any[] = [];
 
 function createComments(): void {
     btnSend.addEventListener('click', () => {
+        searchName()
         for (let i = 0; i <= commentsLoad.length; i++) {
             click.push(i)   
         }
@@ -227,7 +233,7 @@ function answersComments() {
     const answerComment = (() => {
         btnAnswer.forEach(btnA => {
             btnA.addEventListener('click', (event) => {
-                
+                searchName()
                 let { target }: any = event;
                 const commentDivBlock: HTMLDivElement = target.closest(".main__comments_all-comments_content");
                 const nameCommentator = commentDivBlock.querySelector(".main__comments_all_form_comment_name").textContent;
@@ -238,9 +244,9 @@ function answersComments() {
                     let createsAnswer = `
                         <div class="main__comments_all-comments_ass active">
                             <form class="main__comments_all_form main__comments_all-comments_answers new_style">
-                                <div class="main__comments_all_form_photo"><img src="images/png/photo.png" alt="аватар"></div>
+                                <div class="main__comments_all_form_photo">${img}</div>
                                 <div class="main__comments_all_form_comment new_style">
-                                    <span class="main__comments_all_form_comment_name">Максим Авдеенко</span>
+                                    <span class="main__comments_all_form_comment_name">${Name}</span>
                                     <span class="main__comments_all_form_comment_symbols new_style">Макс. 1000 символов</span>
                                     <div class="main__comments_all_form_comment_send new_style">
                                         <textarea id="inp-text" class="main__comments_all_form_comment_send_inp-text new_style" placeholder="Введите текст сообщения..." name="comment" rows="1"></textarea>
