@@ -2,8 +2,10 @@
 const filter: HTMLSelectElement = <HTMLSelectElement>document.querySelector("#filter");
 const filterList: HTMLDivElement = <HTMLDivElement>document.querySelector(".main__comments_filter_form_list");
 const imgLike: NodeListOf<Element> = filterList.querySelectorAll(".main__comments_filter_form_list_img");
-
-filterList.addEventListener("click", showArrow);
+let localComments = JSON.parse(localStorage.getItem("comments"));
+let numArrow = 0;
+if (localStorage.getItem('numArrow')) numArrow = JSON.parse(localStorage.getItem('numArrow'));
+loadArrow()
 
 const select = ((): void => {
     
@@ -19,15 +21,6 @@ const select = ((): void => {
     filter.insertAdjacentHTML("afterbegin", options);
 })()
 
-function showArrow(): void {
-    imgLike.forEach(img => {
-        if(img.classList.contains('hidden')) {
-            img.classList.remove('hidden');
-        } else {
-            img.classList.add('hidden');
-        }
-    })
-}
 
 function createFilter():void {
     const listDiv: string = `
@@ -72,7 +65,6 @@ function selectFilter(): void {
             JSON.stringify(localStorage.setItem("selectOptions", item.textContent));
             event.stopPropagation()
             showFilter()
-            showArrow()
             filter.options[index].selected = true;
             listFilterItem.forEach(elem => elem.classList.remove('active'));
             item.classList.add('active');
@@ -85,9 +77,6 @@ function selectFilter(): void {
 selectFilter()
 
 // функция для увеличения высоты textarea
-
-
-
 const textAreaHeight = (() => {
     function textInput(el: HTMLTextAreaElement): void {
         el.style.height = '5px';
@@ -197,3 +186,43 @@ function textareaSymbol(): void {
 }
 
 textareaSymbol()
+
+
+
+// стрелка фильтра
+imgLike.forEach((img, index) => {
+    img.addEventListener("click", (event) => {
+        event.preventDefault()
+        showArrows()
+        location.reload()
+    });
+})
+    
+
+function showArrows(): void {
+    if(numArrow == 0) {
+        imgLike[1].classList.remove('hidden');
+        imgLike[0].classList.add('hidden');
+        localComments.reverse();
+        localStorage.setItem("comments", JSON.stringify(localComments))
+        let newNumArrow = 1;
+        localStorage.setItem("numArrow", JSON.stringify(newNumArrow))
+    } else {
+        imgLike[0].classList.remove('hidden');
+        imgLike[1].classList.add('hidden');
+        localComments.reverse();
+        localStorage.setItem("comments", JSON.stringify(localComments));
+        let newNumArrow = 0;
+        localStorage.setItem("numArrow", JSON.stringify(newNumArrow))
+    } 
+}
+
+function loadArrow():void {
+    if (numArrow == 0) {
+        imgLike[1].classList.remove('hidden');
+        imgLike[0].classList.add('hidden');
+    } else {
+        imgLike[0].classList.remove('hidden');
+        imgLike[1].classList.add('hidden');
+    }
+}

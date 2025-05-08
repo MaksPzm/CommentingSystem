@@ -84,7 +84,7 @@ aside {
 .main__comments_filter_form_list::before {
     content: " ";
     position: absolute;
-    width: 100%;
+    width: 95%;
     height: 19px;
     display: block;
     background-color: rgb(255, 255, 255, 0.00);
@@ -108,6 +108,7 @@ aside {
     height: 18px;
     top: 0;
     right: -10px;
+    z-index: 5;
 }
 
 .main__comments_filter_form_list_listBlock {
@@ -431,7 +432,7 @@ aside {
     right: -3px;
 }
 
-@media screen and (max-width: 321px) { 
+@media screen and (max-width: 361px) { 
     header {
         width: 320px;
         height: 68px;
@@ -559,17 +560,18 @@ aside {
     }
     
     .main__comments_filter_form_favorite {
+        width: 106px;
         height: 21px;
         display: flex;
         gap: 9.5px;
         align-items: center;
         position: absolute;
         top: 493px;
-        left: 155px;
+        right: 100px;
     }
     
     #favories {
-        margin-left: 50px;
+        margin-right: 0;
         border: none;
         background-color: white;
         font: 14px "Inter", sans-serif;
