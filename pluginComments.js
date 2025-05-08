@@ -39,7 +39,7 @@ class CreateComments {
                 <div class="main__comments_all_form_comment">
                     <div class="main__comments_all_form_comment-block">   
                         <span class="main__comments_all_form_comment_name">${this.name}</span>
-                        <div class="main__comments_all-comments_content_menu_answer"><img src="images/svg/answer.svg" alt="стрелка ответа" class="main__comments_all-comments_content_menu_img">${this.answer}</div>
+                        <div class="main__comments_all-comments_content_menu_answer mob"><img src="images/svg/answer.svg" alt="стрелка ответа" class="main__comments_all-comments_content_menu_img">${this.answer}</div>
                         <span class="main__comments_all-comments_content-block_data">${this.date}</span>
                     </div>     
                     <div class="main__comments_all-comments_content_text">
@@ -47,7 +47,7 @@ class CreateComments {
                         ${this.content}
                         </p>
                     </div>
-                    <div class="main__comments_all-comments_content_menu">
+                    <div class="main__comments_all-comments_content_menu mob">
                         <div class="main__comments_all-comments_content_menu_like-Favorites answer"><img src="images/svg/likeP.svg" alt="избранное" class="main__comments_all-comments_content_menu_img">В избранное</div>
                         <div class="main__comments_all-comments_content_menu_like"><div class="main__comments_all-comments_content_menu_like_minus"><span>-</span></div><div class="main__comments_all-comments_content_menu_like_num-answer">${this.like}</div><div class="main__comments_all-comments_content_menu_like_plus"><span>+</span></div></div>
                     </div>
