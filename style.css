@@ -149,7 +149,7 @@ aside {
 
 .main__comments_filter_form_list_listBlock_list_item.active::before,
 .main__comments_filter_form_list_listBlock_list_item:hover::before {
-    content: url("../images/svg/iconG.svg");
+    content: url("images/svg/iconG.svg");
     position: absolute;
     left: 7px;
 }
@@ -554,7 +554,7 @@ aside {
     
     .main__comments_filter_form_list_listBlock_list_item.active::before,
     .main__comments_filter_form_list_listBlock_list_item:hover::before {
-        content: url("../images/svg/iconG.svg");
+        content: url("images/svg/iconG.svg");
         position: absolute;
         left: 7px;
     }
